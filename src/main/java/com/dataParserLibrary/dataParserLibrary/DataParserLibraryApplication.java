@@ -1,39 +1,54 @@
 package com.dataParserLibrary.dataParserLibrary;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.dataParserLibrary.dataParserLibrary.parser.CsvParser;
 import com.dataParserLibrary.dataParserLibrary.parser.JsonParser;
 import com.dataParserLibrary.dataParserLibrary.parser.XmlParser;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-@SpringBootApplication
 public class DataParserLibraryApplication {
-	public static void main(String[] args) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        // JSON Example
-        JsonParser<MyData> jsonParser = new JsonParser<>();
-        MyData jsonData = jsonParser.fromJson(new File("data.json"), MyData.class);
-        jsonParser.toJson(jsonData, new File("output.json"));
+    public static void main(String[] args) {
+        try {
+            // JSON Example
+            JsonParser<MyData> jsonParser = new JsonParser<>();
+            File jsonFile = copyResourceToFile("data.json");
+            MyData jsonData = jsonParser.fromJson(jsonFile, MyData.class);
+            System.out.println("JSON Data: " + jsonData);
 
-        // XML Example
-        XmlParser<MyData> xmlParser = new XmlParser<>();
-        MyData xmlData = xmlParser.fromXml(new File("data.xml"), MyData.class);
-        xmlParser.toXml(xmlData, new File("output.xml"));
+            // XML Example
+            XmlParser<MyData> xmlParser = new XmlParser<>();
+            File xmlFile = copyResourceToFile("data.xml");
+            MyData xmlData = xmlParser.fromXml(xmlFile, MyData.class);
+            System.out.println("XML Data: " + xmlData);
 
-        // CSV Example
-        CsvParser<MyData> csvParser = new CsvParser<>();
-        try (FileReader fileReader = new FileReader("data.csv");
-             FileWriter fileWriter = new FileWriter("output.csv")) {
-            List<MyData> csvData = csvParser.fromCsv(fileReader, MyData.class);
-            csvParser.toCsv(csvData, fileWriter);
+            // CSV Example
+            CsvParser<MyData> csvParser = new CsvParser<>();
+            File csvFile = copyResourceToFile("data.csv");
+            try (FileReader csvFileReader = new FileReader(csvFile)) {
+                List<MyData> csvDataList = csvParser.fromCsv(csvFileReader, MyData.class);
+                System.out.println("CSV Data: " + csvDataList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private static File copyResourceToFile(String resourceName) throws IOException {
+        InputStream inputStream = DataParserLibraryApplication.class.getClassLoader().getResourceAsStream(resourceName);
+        if (inputStream == null) throw new FileNotFoundException("Resource not found: " + resourceName);
+
+        File tempFile = Files.createTempFile("temp", resourceName).toFile();
+        tempFile.deleteOnExit();
+
+        try (FileOutputStream outStream = new FileOutputStream(tempFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
+        }
+        return tempFile;
+    }
 }
