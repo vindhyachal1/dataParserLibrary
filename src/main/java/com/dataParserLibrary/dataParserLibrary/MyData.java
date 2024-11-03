@@ -1,4 +1,4 @@
-package com.vindhyachalJava.dataParserLibrary;
+package com.dataParserLibrary.dataParserLibrary;
 import com.opencsv.bean.CsvBindByName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 

@@ -1,4 +1,4 @@
-package com.vindhyachalJava.dataParserLibrary.parser;
+package com.dataParserLibrary.dataParserLibrary.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;

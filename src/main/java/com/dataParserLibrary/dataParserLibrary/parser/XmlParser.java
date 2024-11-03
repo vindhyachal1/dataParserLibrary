@@ -1,4 +1,4 @@
-package com.vindhyachalJava.dataParserLibrary.parser;
+package com.dataParserLibrary.dataParserLibrary.parser;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;

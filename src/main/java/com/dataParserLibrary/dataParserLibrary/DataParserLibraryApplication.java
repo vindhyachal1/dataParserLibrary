@@ -1,4 +1,4 @@
-package com.vindhyachalJava.dataParserLibrary;
+package com.dataParserLibrary.dataParserLibrary;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,11 +8,11 @@ import java.util.List;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.dataParserLibrary.dataParserLibrary.parser.CsvParser;
+import com.dataParserLibrary.dataParserLibrary.parser.JsonParser;
+import com.dataParserLibrary.dataParserLibrary.parser.XmlParser;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import com.vindhyachalJava.dataParserLibrary.parser.CsvParser;
-import com.vindhyachalJava.dataParserLibrary.parser.JsonParser;
-import com.vindhyachalJava.dataParserLibrary.parser.XmlParser;
 
 @SpringBootApplication
 public class DataParserLibraryApplication {

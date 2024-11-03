@@ -1,4 +1,4 @@
-package com.vindhyachalJava.dataParserLibrary.parser;
+package com.dataParserLibrary.dataParserLibrary.parser;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
